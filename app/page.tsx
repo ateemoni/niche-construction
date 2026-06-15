@@ -4,14 +4,14 @@ import { supabase } from '../lib/supabase'
 import { useRouter } from 'next/navigation'
 
 const VAT_RATE = 16
-const catLabels = {
+const catLabels: any = {
   labor: 'Type of labor',
   materials: 'Material name',
   tools: 'Tool name',
   transport: 'Route / purpose',
   permits: 'Permit type'
 }
-const catColors = {
+const catColors: any = {
   labor: 'bg-amber-100 text-amber-800',
   materials: 'bg-green-100 text-green-800',
   tools: 'bg-blue-100 text-blue-800',
@@ -19,21 +19,21 @@ const catColors = {
   permits: 'bg-gray-100 text-gray-600'
 }
 
-function fmt(n) {
+function fmt(n: number) {
   return 'KSh ' + Math.round(n).toLocaleString()
 }
 
 export default function Home() {
   const router = useRouter()
-  const [user, setUser] = useState(null)
-  const [project, setProject] = useState(null)
-  const [expenses, setExpenses] = useState([])
+  const [user, setUser] = useState<any>(null)
+  const [project, setProject] = useState<any>(null)
+  const [expenses, setExpenses] = useState<any[]>([])
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<any>({
     name: '', budget: '', client: '', location: '', contractor: '', start_date: '', end_date: ''
   })
-  const [expForm, setExpForm] = useState({ cat: 'labor', item: '', vendor: '', amount: '' })
+  const [expForm, setExpForm] = useState<any>({ cat: 'labor', item: '', vendor: '', amount: '' })
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
@@ -42,7 +42,7 @@ export default function Home() {
     })
   }, [])
 
-  async function loadProject(userId) {
+  async function loadProject(userId: string) {
     const { data } = await supabase
       .from('projects')
       .select('*')
@@ -65,7 +65,7 @@ export default function Home() {
     }
   }
 
-  async function loadExpenses(projectId) {
+  async function loadExpenses(projectId: string) {
     const { data } = await supabase
       .from('expenses')
       .select('*')
@@ -119,9 +119,9 @@ export default function Home() {
     setExpForm({ cat: expForm.cat, item: '', vendor: '', amount: '' })
   }
 
-  async function deleteExpense(id) {
+  async function deleteExpense(id: string) {
     await supabase.from('expenses').delete().eq('id', id)
-    setExpenses(expenses.filter(e => e.id !== id))
+    setExpenses(expenses.filter((e: any) => e.id !== id))
   }
 
   async function signOut() {
@@ -130,14 +130,14 @@ export default function Home() {
   }
 
   const budget = parseFloat(form.budget) || 0
-  const baseSpent = expenses.reduce((s, e) => s + parseFloat(e.amount), 0)
+  const baseSpent = expenses.reduce((s: number, e: any) => s + parseFloat(e.amount), 0)
   const taxAmt = baseSpent * VAT_RATE / 100
   const totalSpent = baseSpent + taxAmt
   const remaining = budget - totalSpent
   const spentPct = budget > 0 ? Math.min(100, Math.round(totalSpent / budget * 100)) : 0
   const completion = Math.min(100, Math.round(spentPct * 0.9))
 
-  const taxByCategory = expenses.reduce((acc, e) => {
+  const taxByCategory = expenses.reduce((acc: any, e: any) => {
     acc[e.category] = (acc[e.category] || 0) + parseFloat(e.amount)
     return acc
   }, {})
@@ -249,7 +249,7 @@ export default function Home() {
                   </tr>
                 </thead>
                 <tbody>
-                  {expenses.map(e => (
+                  {expenses.map((e: any) => (
                     <tr key={e.id} className="border-b border-gray-50 last:border-0">
                       <td className="py-2"><span className={`text-xs px-2 py-0.5 rounded-full ${catColors[e.category]}`}>{e.category}</span></td>
                       <td className="py-2 text-gray-700">{e.item}</td>
@@ -264,22 +264,22 @@ export default function Home() {
             <div className="grid grid-cols-4 gap-2 pt-3 border-t border-gray-100">
               <select
                 value={expForm.cat}
-                onChange={e => setExpForm({ ...expForm, cat: e.target.value })}
+                onChange={(e: any) => setExpForm({ ...expForm, cat: e.target.value })}
                 className="border border-gray-200 rounded-lg px-2 py-2 text-sm outline-none bg-gray-50"
               >
-                {Object.keys(catLabels).map(c => <option key={c} value={c}>{c}</option>)}
+                {Object.keys(catLabels).map((c: string) => <option key={c} value={c}>{c}</option>)}
               </select>
               <input
                 type="text"
                 value={expForm.item}
-                onChange={e => setExpForm({ ...expForm, item: e.target.value })}
+                onChange={(e: any) => setExpForm({ ...expForm, item: e.target.value })}
                 placeholder={catLabels[expForm.cat]}
                 className="border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none bg-gray-50"
               />
               <input
                 type="text"
                 value={expForm.vendor}
-                onChange={e => setExpForm({ ...expForm, vendor: e.target.value })}
+                onChange={(e: any) => setExpForm({ ...expForm, vendor: e.target.value })}
                 placeholder="Vendor"
                 className="border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none bg-gray-50"
               />
@@ -287,10 +287,10 @@ export default function Home() {
                 <input
                   type="number"
                   value={expForm.amount}
-                  onChange={e => setExpForm({ ...expForm, amount: e.target.value })}
+                  onChange={(e: any) => setExpForm({ ...expForm, amount: e.target.value })}
                   placeholder="Amount"
                   className="flex-1 border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none bg-gray-50 min-w-0"
-                  onKeyDown={e => e.key === 'Enter' && addExpense()}
+                  onKeyDown={(e: any) => e.key === 'Enter' && addExpense()}
                 />
                 <button onClick={addExpense} className="bg-gray-900 text-white rounded-lg px-3 py-2 text-sm hover:bg-gray-700">+</button>
               </div>
@@ -308,7 +308,7 @@ export default function Home() {
               <p className="text-sm text-gray-400">Add expenses above — taxes appear here automatically.</p>
             ) : (
               <div className="space-y-2">
-                {Object.entries(taxByCategory).map(([cat, base]) => (
+                {Object.entries(taxByCategory).map(([cat, base]: [string, any]) => (
                   <div key={cat} className="flex items-center justify-between text-sm">
                     <div className="flex items-center gap-2">
                       <span className={`text-xs px-2 py-0.5 rounded-full ${catColors[cat]}`}>{cat}</span>
