@@ -32,3 +32,24 @@ input:-webkit-autofill:focus {
   -webkit-box-shadow: 0 0 0px 1000px #f9fafb inset !important;
   background-color: #f9fafb !important;
 }
+
+input,
+select,
+textarea {
+  color: #111827;
+  font-weight: 500;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #6b7280;
+}
+
+label {
+  color: #374151;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

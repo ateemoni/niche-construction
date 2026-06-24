@@ -449,7 +449,7 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
+    <div className="min-h-screen bg-slate-50 text-gray-900 flex">
       <div className={"fixed inset-y-0 left-0 z-40 w-64 bg-white border-r border-gray-100 transform transition-transform duration-200 flex flex-col " + (sidebarOpen ? "translate-x-0" : "-translate-x-full") + " lg:translate-x-0 lg:static lg:flex"}>
         <div className="p-4 border-b border-gray-100 flex items-center gap-2">
           <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center text-orange-600 font-bold text-sm">N</div>
@@ -503,10 +503,14 @@ export default function Home() {
               { label: "Remaining", value: fmt(remaining), color: remaining < 0 ? "text-red-600" : remaining < budget * 0.1 ? "text-amber-600" : "text-green-600" },
               { label: "Tax deducted", value: fmt(taxAmt), color: "text-gray-700" }
             ].map(m => (
-              <div key={m.label} className="bg-white rounded-xl border border-gray-100 p-4">
-                <div className="text-xs text-gray-400 uppercase tracking-wide mb-1">{m.label}</div>
-                <div className={"text-lg font-medium " + m.color}>{m.value}</div>
-              </div>
+              <div key={m.label} className="bg-white rounded-xl border border-gray-200 shadow-sm p-4">
+  <div className="text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1">
+    {m.label}
+  </div>
+  <div className={"text-lg font-medium " + m.color}>
+    {m.value}
+  </div>
+</div>
             ))}
           </div>
 
@@ -566,8 +570,10 @@ export default function Home() {
                   { label: "Expected end date", key: "end_date", type: "date", placeholder: "" }
                 ].map(f => (
                   <div key={f.key}>
-                    <label className="text-xs text-gray-400 uppercase tracking-wide mb-1 block">{f.label}</label>
-                    <input type={f.type} value={form[f.key]} onChange={e => setForm({ ...form, [f.key]: e.target.value })} placeholder={f.placeholder} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-gray-400 bg-gray-50 text-gray-900" />
+                    <label className="mb-2 block text-sm font-medium text-gray-700">
+  {f.label}
+</label>
+                    <input type={f.type} value={form[f.key]} onChange={e => setForm({ ...form, [f.key]: e.target.value })} placeholder={f.placeholder} className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-900 placeholder:text-gray-500 focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-100" />
                   </div>
                 ))}
               </div>
