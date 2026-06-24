@@ -575,6 +575,7 @@ export default function Home() {
                   { label: "Contractor", key: "contractor", type: "text", placeholder: "Contractor name" },
                   { label: "Start date", key: "start_date", type: "date", placeholder: "" },
                   { label: "Expected end date", key: "end_date", type: "date", placeholder: "" },
+                  { label: "Contingency reserve (KSh)", key: "contingency", type: "number", placeholder: "e.g. 50000" },
                   { label: "Contingency reserve (KSh)", key: "contingency", type: "number", placeholder: "e.g. 50000" }
                 ].map(f => (
                   <div key={f.key}>
