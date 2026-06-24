@@ -315,10 +315,6 @@ export default function Home() {
   const baseSpent = expenses.reduce((s: number, e: any) => s + parseFloat(e.amount), 0)
   const taxAmt = baseSpent * VAT_RATE / 100
   const totalSpent = baseSpent + taxAmt
-  const remaining = budget - totalSpent
-  const spentPct = budget > 0 ? Math.min(100, Math.round(totalSpent / budget * 100)) : 0
-  const completion = Math.min(100, Math.round(spentPct * 0.9))
-
   const taxByCategory = expenses.reduce((acc: any, e: any) => {
     acc[e.category] = (acc[e.category] || 0) + parseFloat(e.amount)
     return acc
@@ -337,7 +333,10 @@ export default function Home() {
   const statusLabels: any = { pending: 'Pending', in_progress: 'In progress', complete: 'Complete' }
 
   const contingency = parseFloat(form.contingency) || 0
-  const effectiveBudget = budget - contingency
+  const workingBudget = budget - contingency
+  const remaining = workingBudget - totalSpent
+  const spentPct = workingBudget > 0 ? Math.min(100, Math.round(totalSpent / workingBudget * 100)) : 0
+  const completion = Math.min(100, Math.round(spentPct * 0.9))
 
   const budgetStatus = spentPct > 90 ? 'Over budget risk' : spentPct > 70 ? 'Watch spend' : 'On budget'
   const budgetColor = spentPct > 90 ? 'bg-red-50 text-red-600 border-red-200' : spentPct > 70 ? 'bg-amber-50 text-amber-600 border-amber-200' : 'bg-green-50 text-green-600 border-green-200'
@@ -502,13 +501,14 @@ export default function Home() {
             {project && isOwner && <button onClick={deleteProject} disabled={deleting} className="text-xs text-red-400 hover:text-red-600 hidden sm:block">{deleting ? "Deleting..." : "Delete"}</button>}
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 sm:gap-3 mb-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3 mb-4">
             {[
               { label: "Total budget", value: fmt(budget), color: "text-green-600" },
+              { label: "Contingency", value: fmt(contingency), color: "text-purple-600" },
+              { label: "Working budget", value: fmt(workingBudget), color: "text-blue-600" },
               { label: "Spent", value: fmt(totalSpent), color: "text-amber-600" },
-              { label: "Remaining", value: fmt(remaining), color: remaining < 0 ? "text-red-600" : remaining < budget * 0.1 ? "text-amber-600" : "text-green-600" },
-              { label: "Tax deducted", value: fmt(taxAmt), color: "text-gray-700" },
-              { label: "Contingency", value: fmt(contingency), color: "text-purple-600" }
+              { label: "Remaining", value: fmt(remaining), color: remaining < 0 ? "text-red-600" : remaining < workingBudget * 0.1 ? "text-amber-600" : "text-green-600" },
+              { label: "Tax deducted", value: fmt(taxAmt), color: "text-gray-700" }
             ].map(m => (
               <div key={m.label} className="bg-white rounded-xl border border-gray-200 shadow-sm p-4">
   <div className="text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1">
