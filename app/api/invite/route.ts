@@ -26,7 +26,7 @@ export async function POST(req: Request) {
           <p style="color: #555; line-height: 1.6;">
             To get started, sign up or sign in at the link below:
           </p>
-          <a href="http://localhost:3000/auth" 
+          <a href="https://niche-construction.vercel.app/auth" 
              style="display: inline-block; background: #1a1a1a; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 500; margin: 8px 0;">
             Open Niche Construction
           </a>
