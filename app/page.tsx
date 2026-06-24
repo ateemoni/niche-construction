@@ -313,10 +313,15 @@ export default function Home() {
 
   const budget = parseFloat(form.budget) || 0
   const baseSpent = expenses.reduce((s: number, e: any) => s + parseFloat(e.amount), 0)
-  const taxAmt = baseSpent * VAT_RATE / 100
+  const taxableBase = expenses.reduce((s: number, e: any) => !['labor', 'transport'].includes(e.category) ? s + parseFloat(e.amount) : s, 0)
+  const taxAmt = taxableBase * VAT_RATE / 100
   const totalSpent = baseSpent + taxAmt
+  const NON_TAXABLE = ['labor', 'transport']
+
   const taxByCategory = expenses.reduce((acc: any, e: any) => {
-    acc[e.category] = (acc[e.category] || 0) + parseFloat(e.amount)
+    if (!NON_TAXABLE.includes(e.category)) {
+      acc[e.category] = (acc[e.category] || 0) + parseFloat(e.amount)
+    }
     return acc
   }, {})
 
