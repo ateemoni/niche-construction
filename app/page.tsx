@@ -25,7 +25,7 @@ function fmt(n: number) {
   return 'KSh ' + Math.round(n).toLocaleString()
 }
 
-const emptyForm = { name: '', budget: '', client: '', location: '', contractor: '', start_date: '', end_date: '' }
+const emptyForm = { name: '', budget: '', client: '', location: '', contractor: '', start_date: '', end_date: '', contingency: '' }
 
 export default function Home() {
   const router = useRouter()
@@ -102,7 +102,8 @@ export default function Home() {
       location: p.location || '',
       contractor: p.contractor || '',
       start_date: p.start_date || '',
-      end_date: p.end_date || ''
+      end_date: p.end_date || '',
+      contingency: p.contingency || ''
     })
     loadExpenses(p.id)
     loadMilestones(p.id)
@@ -217,7 +218,8 @@ export default function Home() {
         location: form.location,
         contractor: form.contractor,
         start_date: form.start_date || null,
-        end_date: form.end_date || null
+        end_date: form.end_date || null,
+        contingency: parseFloat(form.contingency) || 0
       }).eq('id', project.id)
       setProjects(prev => prev.map(p => p.id === project.id ? { ...p, name: form.name, budget: parseFloat(form.budget) || 0 } : p))
     } else {
@@ -229,7 +231,8 @@ export default function Home() {
         location: form.location,
         contractor: form.contractor,
         start_date: form.start_date || null,
-        end_date: form.end_date || null
+        end_date: form.end_date || null,
+        contingency: parseFloat(form.contingency) || 0
       }).select().single()
       if (data) {
         setProject(data)
@@ -332,6 +335,9 @@ export default function Home() {
     complete: 'bg-green-100 text-green-700'
   }
   const statusLabels: any = { pending: 'Pending', in_progress: 'In progress', complete: 'Complete' }
+
+  const contingency = parseFloat(form.contingency) || 0
+  const effectiveBudget = budget - contingency
 
   const budgetStatus = spentPct > 90 ? 'Over budget risk' : spentPct > 70 ? 'Watch spend' : 'On budget'
   const budgetColor = spentPct > 90 ? 'bg-red-50 text-red-600 border-red-200' : spentPct > 70 ? 'bg-amber-50 text-amber-600 border-amber-200' : 'bg-green-50 text-green-600 border-green-200'
@@ -496,12 +502,13 @@ export default function Home() {
             {project && isOwner && <button onClick={deleteProject} disabled={deleting} className="text-xs text-red-400 hover:text-red-600 hidden sm:block">{deleting ? "Deleting..." : "Delete"}</button>}
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 mb-4">
+          <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 sm:gap-3 mb-4">
             {[
               { label: "Total budget", value: fmt(budget), color: "text-green-600" },
               { label: "Spent", value: fmt(totalSpent), color: "text-amber-600" },
               { label: "Remaining", value: fmt(remaining), color: remaining < 0 ? "text-red-600" : remaining < budget * 0.1 ? "text-amber-600" : "text-green-600" },
-              { label: "Tax deducted", value: fmt(taxAmt), color: "text-gray-700" }
+              { label: "Tax deducted", value: fmt(taxAmt), color: "text-gray-700" },
+              { label: "Contingency", value: fmt(contingency), color: "text-purple-600" }
             ].map(m => (
               <div key={m.label} className="bg-white rounded-xl border border-gray-200 shadow-sm p-4">
   <div className="text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1">
@@ -567,7 +574,8 @@ export default function Home() {
                   { label: "Location", key: "location", type: "text", placeholder: "Site address" },
                   { label: "Contractor", key: "contractor", type: "text", placeholder: "Contractor name" },
                   { label: "Start date", key: "start_date", type: "date", placeholder: "" },
-                  { label: "Expected end date", key: "end_date", type: "date", placeholder: "" }
+                  { label: "Expected end date", key: "end_date", type: "date", placeholder: "" },
+                  { label: "Contingency reserve (KSh)", key: "contingency", type: "number", placeholder: "e.g. 50000" }
                 ].map(f => (
                   <div key={f.key}>
                     <label className="mb-2 block text-sm font-medium text-gray-700">
