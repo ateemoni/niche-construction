@@ -567,7 +567,7 @@ export default function Home() {
                 ].map(f => (
                   <div key={f.key}>
                     <label className="text-xs text-gray-400 uppercase tracking-wide mb-1 block">{f.label}</label>
-                    <input type={f.type} value={form[f.key]} onChange={e => setForm({ ...form, [f.key]: e.target.value })} placeholder={f.placeholder} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-gray-400 bg-gray-50" />
+                    <input type={f.type} value={form[f.key]} onChange={e => setForm({ ...form, [f.key]: e.target.value })} placeholder={f.placeholder} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-gray-400 bg-gray-50 text-gray-900" />
                   </div>
                 ))}
               </div>
