@@ -32,7 +32,7 @@ export default function Auth() {
         <div className="flex items-center gap-3 mb-6">
           <div className="w-10 h-10 bg-orange-100 rounded-xl flex items-center justify-center text-orange-600 font-bold text-lg">N</div>
           <div>
-            <h1 className="text-base font-medium text-gray-900">Niche Construction</h1>
+            <h1 className="text-base font-medium text-gray-900">Nichii Investment Ltd</h1>
             <p className="text-xs text-gray-500">Project Manager</p>
           </div>
         </div>

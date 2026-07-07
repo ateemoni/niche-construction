@@ -355,7 +355,7 @@ export default function Home() {
     doc.setTextColor(255, 255, 255)
     doc.setFontSize(16)
     doc.setFont('helvetica', 'bold')
-    doc.text('Niche Construction', 14, 12)
+    doc.text('Nichii Investment Ltd', 14, 12)
     doc.setFontSize(9)
     doc.setFont('helvetica', 'normal')
     doc.text('Project Report', 14, 20)
@@ -463,7 +463,7 @@ export default function Home() {
       <div className={"fixed inset-y-0 left-0 z-40 w-64 bg-white border-r border-gray-100 transform transition-transform duration-200 flex flex-col " + (sidebarOpen ? "translate-x-0" : "-translate-x-full") + " lg:translate-x-0 lg:static lg:flex"}>
         <div className="p-4 border-b border-gray-100 flex items-center gap-2">
           <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center text-orange-600 font-bold text-sm">N</div>
-          <span className="text-sm font-medium text-gray-900 flex-1">Niche Construction</span>
+          <span className="text-sm font-medium text-gray-900 flex-1">Nichii Investment Ltd</span>
           <button onClick={() => setSidebarOpen(false)} className="lg:hidden text-gray-400 hover:text-gray-600 text-lg leading-none">x</button>
         </div>
         <div className="p-3 border-b border-gray-100">

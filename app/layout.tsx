@@ -2,7 +2,7 @@ import './globals.css'
 import { ReactNode } from 'react'
 
 export const metadata = {
-  title: 'Niche Construction',
+  title: 'Nichii Investment Ltd',
   description: 'Project Manager',
 }
 
